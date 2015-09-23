@@ -23,21 +23,19 @@ endif (DocumentationOnly)
 # search for python
 find_package(PythonLibs REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
+link_libraries(${PYTHON_LIBRARIES})
 
 # find numpy
 find_package(NumPy REQUIRED)
 include_directories(${NUMPY_INCLUDE_DIRS})
 
-# Boost
-#set(Boost_USE_STATIC_LIBS        ON)
-#set(Boost_USE_STATIC_RUNTIME    OFF)
-
 find_package(ALPSCore REQUIRED)
+link_libraries(${ALPSCore_LIBRARIES})
 
-find_package(Boost REQUIRED COMPONENTS python)
-include_directories(${Boost_INCLUDE_DIRS})
+add_this_package(python dict_to_params)
+add_boost(python)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+add_testing()
 
 set (libs_ "")
 foreach (name    
@@ -73,7 +71,6 @@ install(EXPORT ${PROJECT_NAME} NAMESPACE alps-python:: DESTINATION share/${PROJE
 # endif()
 
 
-add_testing()
 
 gen_pkg_config()
 #gen_find_module(alps/utilities/boost_python.hpp HEADER_ONLY) 
